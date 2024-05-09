@@ -1,12 +1,12 @@
 import NavComponent from "./components/NavComponent";
-import ItemListContainer from "./components/ItemListContainer";
 import "./App.css";
+import ItemList from "./components/items/ItemList";
 
 function App() {
   return (
     <>
       <NavComponent />
-      <ItemListContainer greeting="Welcome!!" />
+      <ItemList />
     </>
   );
 }
