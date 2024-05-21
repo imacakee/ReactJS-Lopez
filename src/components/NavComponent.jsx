@@ -9,17 +9,21 @@ export default function NavComponent() {
     {
       title: "Products",
       items: [
-        { title: "All", path: "/products" },
-        { title: "Summer", path: "/products?category=summer" },
-        { title: "Autumn", path: "/products?category=autumn" },
-        { title: "Winter", path: "/products?category=winter" },
-        { title: "Spring", path: "/products?category=spring" },
+        { title: "All", path: "/" },
+        { title: "Summer", path: "/?category=summer" },
+        { title: "Autumn", path: "/?category=autumn" },
+        { title: "Winter", path: "/?category=winter" },
+        { title: "Spring", path: "/?category=spring" },
       ],
     },
   ];
 
   const navStyle = {
     backgroundColor: "#84996a",
+    position: "fixed",
+    width: "100%",
+    top: 0,
+    zIndex: 1,
   };
 
   return (

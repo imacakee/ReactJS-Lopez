@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
-import ItemCount from "./ItemCount";
 import { getProducts } from "../../asyncMock";
 import { Spinner } from "react-bootstrap";
 import Item from "./Item";
+import { useSearchParams } from "react-router-dom";
 
 export default function ItemList() {
   const [items, setItems] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    getProducts
+    setItems([]);
+    let filter = null;
+    if (searchParams.get("category")) {
+      filter = { name: "category", value: searchParams.get("category") };
+    }
+    getProducts(filter)
       .then((result) => {
         setItems(result);
       })
       .catch((error) => console.log("Error: " + error));
-  }, []);
+  }, [searchParams]);
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
-      <ItemCount />
+    <div className="d-flex flex-column justify-content-center align-items-center my-5">
       <br />
       <br />
       {items.length ? (

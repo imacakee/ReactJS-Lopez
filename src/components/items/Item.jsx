@@ -1,11 +1,8 @@
-import { useState } from "react";
-import { getProductById } from "../../asyncMock";
-import ItemDetail from "./ItemDetail";
-import { Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import "./Item.css";
 
 export default function Item({ item }) {
-  const [fullItem, setFullItem] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const imgStyle = {
     width: 100,
@@ -16,40 +13,17 @@ export default function Item({ item }) {
   const itemContainerStyle = {
     backgroundColor: "#f0f0f0",
     width: 760,
-  };
-
-  const buttonStyle = {
-    width: 130,
-    textAlign: "center",
-  };
-
-  const verDetalleItem = () => {
-    setIsLoading(true);
-    getProductById(item.id).then((fetchedItem) => {
-      if (fetchedItem) {
-        setFullItem(fetchedItem);
-      }
-    });
+    cursor: "pointer"
   };
 
   return (
     <div
-      className="d-flex p-4 justify-content-between rounded"
+      className="item d-flex p-4 justify-content-between rounded"
       style={itemContainerStyle}
+      onClick={() => navigate(`/item/${item.id}`)}
     >
       <div className="d-flex flex-column">
         <h5>{item.title}</h5>
-        {!fullItem && (
-          <button style={buttonStyle} onClick={verDetalleItem}>
-            {!isLoading && "Ver detalle"}
-            {isLoading && (
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            )}
-          </button>
-        )}
-        {fullItem && <ItemDetail item={fullItem} />}
       </div>
       <img style={imgStyle} src={item.pictureUrl} alt="" />
     </div>

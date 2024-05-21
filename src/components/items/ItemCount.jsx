@@ -1,8 +1,7 @@
 import { useState } from "react";
 
-export default function ItemCount() {
+export default function ItemCount({ stock }) {
   const [count, setCount] = useState(0);
-  const stock = 10;
 
   const incrementNumber = () => {
     if (stock > count) {
@@ -28,7 +27,6 @@ export default function ItemCount() {
 
   return (
     <>
-      <h3>Contador de productos</h3>
       <h5>Stock: {stock}</h5>
       <section
         style={{ margin: 10, display: "flex", alignItems: "center", gap: 50 }}

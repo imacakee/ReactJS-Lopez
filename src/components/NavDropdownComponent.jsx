@@ -1,6 +1,8 @@
 import { Dropdown } from "react-bootstrap";
-
+import { useNavigate } from "react-router-dom";
 export default function NavDropdownComponent({ route }) {
+  const navigate = useNavigate();
+
   return (
     <Dropdown>
       <Dropdown.Toggle
@@ -13,7 +15,10 @@ export default function NavDropdownComponent({ route }) {
       <Dropdown.Menu>
         {route.items.map((item, i) => {
           return (
-            <Dropdown.Item key={`nav-dropdown-item-${i}`} href={item.path}>
+            <Dropdown.Item
+              key={`nav-dropdown-item-${i}`}
+              onClick={() => navigate(item.path)}
+            >
               {item.title}
             </Dropdown.Item>
           );
