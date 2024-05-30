@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CartContext } from "../context/CartContext";
 
-export default function ItemCount({ stock }) {
-  const [count, setCount] = useState(0);
+export default function ItemCount({ id, stock, onAddItem }) {
+  const [products, setProducts] = useContext(CartContext);
+  const countInitialValue =
+    products.find((prd) => prd.item.id === id)?.quantity || 0;
+  const [count, setCount] = useState(countInitialValue);
 
   const incrementNumber = () => {
     if (stock > count) {
@@ -16,7 +20,7 @@ export default function ItemCount({ stock }) {
   };
 
   const onAdd = () => {
-    console.log(`Agregué ${count}`);
+    onAddItem(count);
   };
 
   const buttonStyle = {
@@ -47,7 +51,9 @@ export default function ItemCount({ stock }) {
           -
         </button>
       </section>
-      <button onClick={onAdd}>Agregar al carrito</button>
+      <button onClick={onAdd} disabled={count == 0}>
+        Agregar al carrito
+      </button>
     </>
   );
 }

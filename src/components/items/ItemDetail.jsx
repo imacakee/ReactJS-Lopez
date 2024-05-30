@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProductById } from "../../asyncMock";
+import { getProductById } from "../../firebase/firebase";
 import ItemCount from "./ItemCount";
+import { CartContext } from "../context/CartContext";
 
 export default function ItemDetail() {
   const { id } = useParams();
   const [item, setItem] = useState(null);
+  const [products, setProducts] = useContext(CartContext);
 
   useEffect(() => {
-    console.log(id);
     getProductById(id)
       .then((result) => {
         setItem(result);
@@ -27,11 +28,27 @@ export default function ItemDetail() {
     width: 760,
   };
 
+  function isInCart(item) {
+    return products.find((prd) => prd.item.id == item.id);
+  }
+
+  function addItem(quantity) {
+    if (isInCart(item)) {
+      const prds = [...products];
+      const product = prds.find((prd) => prd.item.id == item.id);
+      product.quantity = quantity;
+      setProducts(prds);
+    } else {
+      setProducts([...products, { item, quantity }]);
+    }
+  }
+
   return (
     <div
       style={{ width: "100%", height: "100vh" }}
       className="d-flex justify-content-center align-items-center"
     >
+      {console.log(products)}
       {item && (
         <div
           className="d-flex p-4 justify-content-center rounded"
@@ -44,7 +61,7 @@ export default function ItemDetail() {
             <span>{item.category}</span>
             <span> {item.price}</span>
 
-            <ItemCount stock={item.stock} />
+            <ItemCount id={item.id} stock={item.stock} onAddItem={addItem} />
           </div>
         </div>
       )}

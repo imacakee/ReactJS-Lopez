@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../../asyncMock";
+import { getProducts } from "../../firebase/firebase";
 import { Spinner } from "react-bootstrap";
 import Item from "./Item";
 import { useSearchParams } from "react-router-dom";
