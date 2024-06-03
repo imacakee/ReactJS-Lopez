@@ -1,12 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
   getDocs,
   getFirestore,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -31,7 +33,8 @@ export async function getProducts(filter = null) {
   let q;
   if (filter) {
     q = query(
-      collection(db, "products", where(filter.name, "==", filter.value))
+      collection(db, "products"),
+      where(filter.name, "==", filter.value)
     );
   } else {
     q = collection(db, "products");
@@ -40,6 +43,7 @@ export async function getProducts(filter = null) {
   // response es un query snapshot (similar a un array iterable)
   const prdList = [];
   results.docs.forEach((prd) => prdList.push({ id: prd.id, ...prd.data() }));
+  console.log(prdList);
   return prdList;
 }
 
@@ -48,4 +52,22 @@ export async function getProductById(id) {
   const result = await getDoc(docRef);
   console.log(result);
   return { id: result.id, ...result.data() };
+}
+
+// enviar una nueva orden de pedido
+export async function addOrder(order) {
+  const ordersCollection = collection(db, "orders");
+  const docRef = await addDoc(ordersCollection, order);
+  return docRef.id;
+}
+
+// actualizar un producto
+export async function updateProduct(id, toUpdate) {
+  console.log(id);
+  const prdDoc = doc(db, "products", id);
+  try {
+    await updateDoc(prdDoc, toUpdate);
+  } catch (error) {
+    console.log("error" + error);
+  }
 }

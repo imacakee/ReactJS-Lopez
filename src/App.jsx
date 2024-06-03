@@ -5,10 +5,12 @@ import ItemList from "./components/items/ItemList";
 import ItemDetail from "./components/items/ItemDetail";
 import { CartProvider } from "./components/context/CartContext";
 import CartDetail from "./components/cart/CartDetail";
+// import AddOrders from "./components/AddOrders";
 
 function App() {
   return (
     <CartProvider>
+      {/* <AddOrders /> */}
       <BrowserRouter>
         <NavComponent />
         <Routes>

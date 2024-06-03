@@ -13,7 +13,7 @@ export default function Item({ item }) {
   const itemContainerStyle = {
     backgroundColor: "#f0f0f0",
     width: 760,
-    cursor: "pointer"
+    cursor: "pointer",
   };
 
   return (
