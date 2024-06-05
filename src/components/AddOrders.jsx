@@ -1,12 +1,25 @@
 import { useContext, useState } from "react";
 import { addOrder, updateProduct } from "../firebase/firebase";
 import { CartContext } from "./context/CartContext";
+import Swal from "sweetalert2";
 
 export default function AddOrders() {
   const [products, setProducts] = useContext(CartContext);
   const [orderId, setOrderId] = useState(null);
 
   const confirmPurchase = () => {
+    Swal.fire({
+      title: "Done shopping ?",
+      showCancelButton: true,
+      confirmButtonText: "Purchase",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        purchase();
+      }
+    });
+  };
+
+  const purchase = () => {
     const buyer = {
       name: "Pablo",
       phone: "232323",
@@ -29,18 +42,31 @@ export default function AddOrders() {
       });
     });
     const order = { buyer, items, date: Date.now(), total };
-    addOrder(order).then((id) => setOrderId(id));
+    addOrder(order).then((id) => {
+      Swal.fire(
+        `Thanks for your purchase!! The number of your order id is: ${id}`,
+        "",
+        "success"
+      );
+    });
     for (let i = 0; i < updatedItems.length; i++) {
       updateProduct(updatedItems[i].id, updatedItems[i]);
     }
     setProducts([]);
   };
 
+  const deleteCart = () => {
+    setProducts([]);
+  };
+
+  //
+
   return (
     <>
-      {/* TODO: usar sweet alert para confirmar que la compra se realizó junto con la info del id */}
-      <button onClick={confirmPurchase}>Confirm purchase</button>
-      {orderId && <h3>Su numero de orden es: {orderId}</h3>}
+      <div className="d-flex gap-4">
+        <button onClick={confirmPurchase}>Confirm purchase</button>
+        <button onClick={deleteCart}>Clear cart</button>
+      </div>
     </>
   );
 }
