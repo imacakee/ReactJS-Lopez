@@ -43,14 +43,12 @@ export async function getProducts(filter = null) {
   // response es un query snapshot (similar a un array iterable)
   const prdList = [];
   results.docs.forEach((prd) => prdList.push({ id: prd.id, ...prd.data() }));
-  console.log(prdList);
   return prdList;
 }
 
 export async function getProductById(id) {
   const docRef = doc(db, "products", id);
   const result = await getDoc(docRef);
-  console.log(result);
   return { id: result.id, ...result.data() };
 }
 
@@ -63,7 +61,6 @@ export async function addOrder(order) {
 
 // actualizar un producto
 export async function updateProduct(id, toUpdate) {
-  console.log(id);
   const prdDoc = doc(db, "products", id);
   try {
     await updateDoc(prdDoc, toUpdate);

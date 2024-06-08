@@ -11,6 +11,12 @@ import AddOrders from "../AddOrders";
 export default function CartDetail() {
   const [products, setProducts] = useContext(CartContext);
 
+  const total = products.reduce(
+    (totalPrice, product) =>
+      (totalPrice += product.item.price * product.quantity),
+    0
+  );
+
   const imgStyle = {
     width: 100,
     height: 100,
@@ -54,31 +60,45 @@ export default function CartDetail() {
     }
   };
 
+  const containerFlex = {
+    flex: 1,
+  };
+
   return (
     <div className="d-flex flex-column align-items-center">
       <h2>Shopping Cart</h2>
-      <div className="d-flex flex-column w-75 align-items-center">
+      <div className="d-flex flex-column w-75 align-items-center gap-2">
         {products.length ? (
           <>
             {products.map((prd, i) => (
               <div
-                className="d-flex w-100 justify-content-around align-items-center"
+                className="d-flex w-100 justify-content-between align-items-center border rounded"
                 key={`cart-list-prd-${i}`}
               >
-                <div>
+                <div style={containerFlex} className="d-flex ">
                   <img src={prd.item.pictureUrl} style={imgStyle} />
                 </div>
-                <div className="d-flex align-items-center">
-                  <span>{prd.item.title}</span>
+                <div
+                  style={containerFlex}
+                  className="d-flex  align-items-center"
+                >
+                  <span style={{ fontSize: 20 }}>{prd.item.title}</span>
                 </div>
-                <div className="d-flex justify-content-center align-items-center">
+                <div
+                  style={containerFlex}
+                  className="d-flex  justify-content-center align-items-center gap-4"
+                >
                   <BagPlusFill
                     size={iconSize}
                     color={iconColor}
                     cursor={iconCursor}
                     onClick={() => increaseAmount(prd.item.id)}
                   />
-                  <span className="px-4">{prd.quantity}</span>
+                  <span
+                    style={{ fontSize: 20, fontWeight: 500, lineHeight: 1 }}
+                  >
+                    {prd.quantity}
+                  </span>
                   <BagDashFill
                     size={iconSize}
                     color={iconColor}
@@ -86,7 +106,10 @@ export default function CartDetail() {
                     onClick={() => decreaseAmount(prd.item.id)}
                   />
                 </div>
-                <div className="d-flex align-items-center">
+                <div
+                  style={containerFlex}
+                  className="d-flex  justify-content-center align-items-center px-4"
+                >
                   <Trash3Fill
                     size={iconSize}
                     color={iconColor}
@@ -96,10 +119,14 @@ export default function CartDetail() {
                 </div>
               </div>
             ))}
+            <div className="w-100 d-flex justify-content-end my-3">
+              <h4>Total price ${total}</h4>
+            </div>
+
             <AddOrders />
           </>
         ) : (
-          <h4>carrito vacio</h4>
+          <h4>carrito vacio :/</h4>
         )}
       </div>
     </div>

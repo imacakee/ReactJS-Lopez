@@ -48,7 +48,6 @@ export default function ItemDetail() {
       style={{ width: "100%", height: "100vh" }}
       className="d-flex justify-content-center align-items-center"
     >
-      {console.log(products)}
       {item && (
         <div
           className="d-flex p-4 justify-content-center rounded"
